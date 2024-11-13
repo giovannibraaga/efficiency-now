@@ -89,10 +89,22 @@ public class UserService {
         return userDTO;
     }
 
+    /**
+     * Obtém o email associado a um token de sessão.
+     *
+     * @param sessionToken O token de sessão.
+     * @return O email associado ao token de sessão, ou null se o token não for encontrado.
+     */
     public String getEmailFromSession(String sessionToken) {
         return activeSessions.get(sessionToken);
     }
 
+    /**
+     * Encerra a sessão de um usuário.
+     *
+     * @param sessionToken O token de sessão a ser encerrado.
+     * @throws AuthException Se o token de sessão for inválido ou já estiver encerrado.
+     */
     public void logout(String sessionToken) {
         if (activeSessions.containsKey(sessionToken)) {
             activeSessions.remove(sessionToken);
@@ -101,6 +113,12 @@ public class UserService {
         }
     }
 
+    /**
+     * Verifica se um token de sessão é válido.
+     *
+     * @param sessionToken O token de sessão a ser verificado.
+     * @return true se o token de sessão for válido, false caso contrário.
+     */
     public boolean isAuthenticated(String sessionToken) {
         return activeSessions.containsKey(sessionToken);
     }

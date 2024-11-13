@@ -1,7 +1,6 @@
 package com.efficiencynow.efficiencynow.controllers;
 
 import com.efficiencynow.efficiencynow.Exceptions.Exceptions.AuthException;
-import com.efficiencynow.efficiencynow.dtos.EconomyDTO;
 import com.efficiencynow.efficiencynow.dtos.UserDTO;
 import com.efficiencynow.efficiencynow.services.UserService;
 import jakarta.validation.Valid;

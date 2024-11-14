@@ -3,7 +3,9 @@ package com.efficiencynow.efficiencynow.dtos;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -12,6 +14,8 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
     /**
      * O ID do usuário.
@@ -48,12 +52,12 @@ public class UserDTO {
     private String token;
 
     /**
-     * Construtor para criar uma instância de UserDTO.
+     * Construtor do UserDTO com os detalhes especificados.
      *
-     * @param id       O ID do usuário.
-     * @param name     O nome do usuário.
-     * @param email    O e-mail do usuário.
-     * @param password A senha do usuário.
+     * @param id       o ID do usuário
+     * @param name     o nome do usuário
+     * @param email    o e-mail do usuário
+     * @param password a senha do usuário
      */
     public UserDTO(Long id, String name, String email, String password) {
         this.id = id;

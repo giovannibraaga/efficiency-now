@@ -1,38 +1,26 @@
 package com.efficiencynow.efficiencynow.utils;
 
 /**
- * Nó da árvore AVL.
+ * Classe que representa um nó em uma árvore AVL.
  *
- * @param <T> O tipo de dados que o nó armazena, que deve ser comparável.
+ * @param <K> Tipo da chave, que deve ser comparável.
+ * @param <V> Tipo do valor armazenado no nó.
  */
-class AVLNode<T extends Comparable<T>> {
-    /**
-     * A chave armazenada no nó.
-     */
-    T key;
-
-    /**
-     * A altura do nó na árvore.
-     */
+public class AVLNode<K extends Comparable<K>, V> {
+    K key;
+    V value;
+    AVLNode<K, V> left, right;
     int height;
 
     /**
-     * Referência para o nó filho à esquerda.
-     */
-    AVLNode<T> left;
-
-    /**
-     * Referência para o nó filho à direita.
-     */
-    AVLNode<T> right;
-
-    /**
-     * Construtor para criar um nó com uma chave específica.
+     * Construtor para criar um novo nó AVL.
      *
-     * @param key A chave a ser armazenada no nó.
+     * @param key   A chave do nó.
+     * @param value O valor armazenado no nó.
      */
-    public AVLNode(T key) {
+    public AVLNode(K key, V value) {
         this.key = key;
+        this.value = value;
         this.height = 1;
     }
 }

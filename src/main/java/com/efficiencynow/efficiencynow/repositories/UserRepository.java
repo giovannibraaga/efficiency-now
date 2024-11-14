@@ -20,4 +20,11 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
      */
     @Query("select ue from UserEntity ue where ue.email = ?1")
     Optional<UserEntity> findByEmail(String email);
+
+    /**
+     * Exclui um usuário pelo email.
+     *
+     * @param email O email do usuário a ser excluído.
+     */
+    void deleteByEmail(String email);
 }

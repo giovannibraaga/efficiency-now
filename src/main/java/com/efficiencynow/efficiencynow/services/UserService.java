@@ -7,6 +7,7 @@ import com.efficiencynow.efficiencynow.entities.UserEntity;
 import com.efficiencynow.efficiencynow.repositories.UserRepository;
 import com.efficiencynow.efficiencynow.utils.PasswordEncoder;
 import com.efficiencynow.efficiencynow.utils.Populator;
+import com.efficiencynow.efficiencynow.utils.UserNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AVLUserService avlUserService;
 
     private ConcurrentHashMap<String, String> activeSessions = new ConcurrentHashMap<>();
 
@@ -47,45 +51,24 @@ public class UserService {
     }
 
     /**
-     * Encontra um usuário pelo email.
-     *
-     * @param email O email do usuário a ser encontrado.
-     * @return Um Optional contendo o UserDTO do usuário encontrado, ou vazio se não encontrado.
-     */
-    public Optional<UserDTO> findByEmail(String email) {
-        Optional<UserEntity> userEntity = userRepository.findByEmail(email);
-        return userEntity.map(Populator::toModel);
-    }
-
-
-    /**
      * Realiza o login de um usuário.
      *
-     * @param email    O email do usuário.
-     * @param password A senha do usuário.
+     * @param userDTO O DTO do usuário contendo email e senha.
      * @return O objeto UserDTO do usuário logado, contendo o token de sessão.
      * @throws AuthException Se o email ou a senha forem inválidos.
      */
-    public UserDTO login(String email, String password) {
-        Optional<UserEntity> userOptional = userRepository.findByEmail(email);
-
-        if (userOptional.isEmpty()) {
+    public UserDTO login(UserDTO userDTO) {
+        UserNode userNode = avlUserService.findUserByEmail(userDTO.getEmail());
+        if (userNode == null || !PasswordEncoder.checkPassword(userDTO.getPassword(), userNode.getPasswordHash())) {
             throw new AuthException("E-mail ou senha inválidos.");
         }
 
-        UserEntity userEntity = userOptional.get();
+        String token = UUID.randomUUID().toString();
 
-        if (!PasswordEncoder.checkPassword(password, userEntity.getPassword())) {
-            throw new AuthException("E-mail ou senha inválidos.");
-        }
+        userNode.setToken(token);
+        userDTO.setToken(token);
 
-        String sessionToken = UUID.randomUUID().toString();
-
-        activeSessions.put(sessionToken, userEntity.getEmail());
-
-        UserDTO userDTO = Populator.toModel(userEntity);
-        userDTO.setToken(sessionToken);
-
+        storeSessionToken(token, userNode.getEmail());
         return userDTO;
     }
 
@@ -121,5 +104,31 @@ public class UserService {
      */
     public boolean isAuthenticated(String sessionToken) {
         return activeSessions.containsKey(sessionToken);
+    }
+
+    /**
+     * Exclui um usuário pelo email.
+     *
+     * @param email O email do usuário a ser excluído.
+     * @return true se o usuário foi excluído com sucesso, false caso contrário.
+     */
+    @Transactional
+    public boolean deleteUser(String email) {
+        try {
+            userRepository.deleteByEmail(email);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    /**
+     * Armazena um token de sessão.
+     *
+     * @param token O token de sessão.
+     * @param email O email do usuário associado ao token de sessão.
+     */
+    public void storeSessionToken(String token, String email) {
+        activeSessions.put(token, email);
     }
 }

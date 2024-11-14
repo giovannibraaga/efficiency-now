@@ -4,7 +4,6 @@ import com.efficiencynow.efficiencynow.Exceptions.Exceptions.AuthException;
 import com.efficiencynow.efficiencynow.dtos.UserDTO;
 import com.efficiencynow.efficiencynow.services.AVLUserService;
 import com.efficiencynow.efficiencynow.services.UserService;
-import com.efficiencynow.efficiencynow.utils.PasswordEncoder;
 import com.efficiencynow.efficiencynow.utils.UserNode;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * Controlador REST para gerenciar usuários.
@@ -64,7 +60,7 @@ public class UserController {
 
             ResponseCookie sessionCookie = ResponseCookie.from("SESSION", loggedUser.getToken())
                     .httpOnly(true)
-                    .secure(false)
+                    .secure(true)
                     .sameSite("Lax")
                     .maxAge(7 * 24 * 60 * 60)
                     .path("/")
@@ -120,7 +116,12 @@ public class UserController {
         try {
             userService.logout(sessionToken);
 
-            ResponseCookie deleteCookie = ResponseCookie.from("SESSION", "").httpOnly(true).secure(false).path("/").maxAge(0).build();
+            ResponseCookie deleteCookie = ResponseCookie.from("SESSION", "")
+                    .httpOnly(true)
+                    .secure(true)
+                    .path("/")
+                    .maxAge(0)
+                    .build();
 
             return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, deleteCookie.toString()).build();
         } catch (AuthException e) {

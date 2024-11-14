@@ -72,17 +72,17 @@ Para construir e executar a aplicação usando Docker:
 
 #### Autenticação
 
-- `POST /api/login`: Autentica um usuário e retorna um token de sessão.
-- `GET /api/profile`: Obtém o perfil do usuário logado.
-- `POST /api/logout`: Encerra a sessão do usuário.
+- `POST /users/login`: Autentica um usuário e retorna um token de sessão.
+- `GET /users/profile`: Obtém o perfil do usuário logado.
+- `POST /users/logout`: Encerra a sessão do usuário.
 
 #### Economia de Lâmpadas
 
-- `POST /api/lamp-economy/calc`: Calcula a economia total de energia ao substituir lâmpadas fluorescentes, incandescentes e halógenas por lâmpadas LED.
+- `POST /lamp-economy/calc`: Calcula a economia total de energia ao substituir lâmpadas fluorescentes, incandescentes e halógenas por lâmpadas LED.
 
 #### Economia de Ar Condicionado
 
-- `POST /api/ac-economy/calc-monthly-economy`: Calcula a economia mensal de energia para aparelhos de ar condicionado.
+- `POST /ac-economy/calc-monthly-economy`: Calcula a economia mensal de energia para aparelhos de ar condicionado.
 
 ### Contribuindo
 

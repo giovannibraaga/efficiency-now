@@ -35,11 +35,18 @@ public class UserController {
     public ResponseEntity<UserDTO> registerUser(@RequestBody @Valid UserDTO userDTO) {
         UserDTO registeredUser = userService.registerUser(userDTO);
 
+        if (registeredUser == null) {
+            return ResponseEntity.status(500).build();
+        }
+
         UserNode userNode = new UserNode(
                 registeredUser.getEmail(),
+                registeredUser.getPassword(),
                 registeredUser.getName(),
-                registeredUser.getId()
+                registeredUser.getId(),
+                null
         );
+
         avlUserService.addUserToAVL(userNode);
 
         registeredUser.setPassword(null);

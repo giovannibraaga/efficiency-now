@@ -2,12 +2,13 @@
     <img src="https://github.com/user-attachments/assets/bb116cbe-d0fe-40b6-9244-54d045d0070e" alt="Efficiency Now no bg" width="300"/>
 </div>
 
-Efficiency Now é uma aplicação Spring Boot projetada para calcular economias de energia ao substituir lâmpadas tradicionais por lâmpadas LED mais eficientes e otimizar uso de ar condicionados.
+Efficiency Now é uma aplicação Spring Boot projetada para calcular economias de energia ao substituir lâmpadas tradicionais por lâmpadas LED mais eficientes e otimizar o uso de ar condicionados.
 
 ## Funcionalidades
 
 - Calcular economias de energia ao substituir lâmpadas fluorescentes, incandescentes e halógenas por lâmpadas LED.
 - Calcular consumo de energia e economias para aparelhos de ar condicionado com base em BTU e temperatura.
+- Autenticação de usuários utilizando AVL Tree para armazenamento e busca eficiente.
 
 ## Tecnologias
 
@@ -43,7 +44,7 @@ Efficiency Now é uma aplicação Spring Boot projetada para calcular economias 
     spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
     ```
 
-3. Construa o projeto:
+3. Build do projeto:
     ```sh
     ./gradlew build
     ```
@@ -57,7 +58,7 @@ Efficiency Now é uma aplicação Spring Boot projetada para calcular economias 
 
 Para construir e executar a aplicação usando Docker:
 
-1. Construa a imagem Docker:
+1. Build da imagem Docker:
     ```sh
     docker build -t efficiencynow .
     ```
@@ -69,7 +70,18 @@ Para construir e executar a aplicação usando Docker:
 
 ### Endpoints da API
 
+#### Autenticação
+
+- `POST /api/login`: Autentica um usuário e retorna um token de sessão.
+- `GET /api/profile`: Obtém o perfil do usuário logado.
+- `POST /api/logout`: Encerra a sessão do usuário.
+
+#### Economia de Lâmpadas
+
 - `POST /api/lamp-economy/calc`: Calcula a economia total de energia ao substituir lâmpadas fluorescentes, incandescentes e halógenas por lâmpadas LED.
+
+#### Economia de Ar Condicionado
+
 - `POST /api/ac-economy/calc-monthly-economy`: Calcula a economia mensal de energia para aparelhos de ar condicionado.
 
 ### Contribuindo

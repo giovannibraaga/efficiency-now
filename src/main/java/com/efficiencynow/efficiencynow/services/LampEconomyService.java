@@ -13,8 +13,8 @@ import java.math.RoundingMode;
 public class LampEconomyService {
 
     // Potências das lâmpadas em watts
-    private static final double LED_POWER = 10.0;
-    private static final double FLUORESCENT_POWER = 15.0;
+    private static final double LED_POWER = 9.0;
+    private static final double FLUORESCENT_POWER = 18.0;
     private static final double INCANDESCENT_POWER = 60.0;
     private static final double HALOGEN_POWER = 42.0;
 
